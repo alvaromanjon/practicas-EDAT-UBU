@@ -48,6 +48,7 @@ public class ElementoMayoritario {
 	 * se va a comprobar la frecuencia de cada uno de ellos. Si existe algún elemento cuya frecuencia
 	 * sea igual o superior a la mitad del tamaño de la colección + 1, este elemento será el mayoritario.
 	 *
+	 * @param <E>
 	 * @param array - array de elementos en el que se va a buscar el elemento mayoritario
 	 * @return objeto de tipo RespuestaMayoritaria con el elemento mayoritario y su frecuencia
 	 */
@@ -77,6 +78,7 @@ public class ElementoMayoritario {
 	 * para hallar el elemento mayoritario de cada una de las partes, hasta hallar el elemento mayoritario siguiendo
 	 * el principio del método mayoritarioIterativo.
 	 *
+	 * @param <E>
 	 * @param array - array de elementos en el que se va a buscar el elemento mayoritario
 	 * @return objeto de tipo RespuestaMayoritaria con el elemento mayoritario y su frecuencia
 	 */
