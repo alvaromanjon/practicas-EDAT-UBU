@@ -1,5 +1,7 @@
 package es.ubu.gii.edat.pr01;
 
+import java.util.Arrays;
+
 /**
  * Clase que alberga el código completo para la Práctica 01
  * 
@@ -43,7 +45,8 @@ public class ElementoMayoritario {
 
 	/**
 	 * Aproximación iterativa en la que se van a recorrer todos los elementos de la lista y
-	 * se va a comprobar la frecuencia de cada uno de ellos.
+	 * se va a comprobar la frecuencia de cada uno de ellos. Si existe algún elemento cuya frecuencia
+	 * sea igual o superior a la mitad del tamaño de la colección + 1, este elemento será el mayoritario.
 	 *
 	 * @param array - array de elementos en el que se va a buscar el elemento mayoritario
 	 * @return objeto de tipo RespuestaMayoritaria con el elemento mayoritario y su frecuencia
@@ -70,16 +73,42 @@ public class ElementoMayoritario {
 	}
 
 	/**
-	 * 
-	 * @param <E>
-	 * @param array
-	 * @return
+	 * Aproximación recursiva en la que se divide el array en dos partes, y se llama al método recursivamente
+	 * para hallar el elemento mayoritario de cada una de las partes, hasta hallar el elemento mayoritario siguiendo
+	 * el principio del método mayoritarioIterativo.
+	 *
+	 * @param array - array de elementos en el que se va a buscar el elemento mayoritario
+	 * @return objeto de tipo RespuestaMayoritaria con el elemento mayoritario y su frecuencia
 	 */
 	public static <E> RespuestaMayoritaria<E> mayoritarioRecursivo (E[] array){
-		
+		int frecMax = 0, frecm1 = 0, frecm2 = 0;
+		E elemMax = null;
 
+		if (array.length == 1) {
+			elemMax = array[0];
+			frecMax = 1;
+		} else {
+			RespuestaMayoritaria<E> m1 = mayoritarioRecursivo(Arrays.copyOfRange(array, 0, (array.length + 1)/2));
+			RespuestaMayoritaria<E> m2 = mayoritarioRecursivo(Arrays.copyOfRange(array, (array.length + 1)/2, array.length));
 
-		return null;
+			for (E elem : array) {
+				if (elem.equals(m1.getElemento())) {
+					frecm1++;
+				}
+				if (elem.equals(m2.getElemento())) {
+					frecm2++;
+				}
+			}
 
+			if (frecm1 > array.length / 2) {
+				elemMax = m1.getElemento();
+				frecMax = frecm1;
+			} else if (frecm2 > array.length / 2) {
+				elemMax = m2.getElemento();
+				frecMax = frecm2;
+			}
+		}
+
+		return new RespuestaMayoritaria<E>(elemMax, frecMax);
 	}
 }
