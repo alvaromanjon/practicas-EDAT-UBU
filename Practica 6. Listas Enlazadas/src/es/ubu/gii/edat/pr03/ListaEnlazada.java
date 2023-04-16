@@ -13,7 +13,7 @@ public class ListaEnlazada<E> extends AbstractList<E> {
         numElementos = 0;
     }
 
-    private class NodoInterno<E> {
+    private static class NodoInterno<E> {
         private E elemento;
         private NodoInterno<E> siguiente;
 
@@ -42,10 +42,10 @@ public class ListaEnlazada<E> extends AbstractList<E> {
     @Override
     public boolean add(E e) {
         NodoInterno<E> nuevoNodo = new NodoInterno<E>(e);
-        if (inicial == null) {
-            inicial = nuevoNodo;
+        if (this.inicial == null) {
+            this.inicial = nuevoNodo;
         } else {
-            NodoInterno<E> anteriorNodo = inicial;
+            NodoInterno<E> anteriorNodo = this.inicial;
             while (anteriorNodo.getSiguiente() != null) {
                 anteriorNodo = anteriorNodo.getSiguiente();
             }
@@ -57,11 +57,22 @@ public class ListaEnlazada<E> extends AbstractList<E> {
 
     @Override
     public void add(int index, E element) {
-        if (index == numElementos) {
-            this.add(element);
-        } else {
+        if (index < 0 || index >= numElementos) {
             throw new IndexOutOfBoundsException();
+        } else if (index == 0) {
+            NodoInterno<E> nodoContinuacion = this.inicial;
+            this.inicial = new NodoInterno<E>(element);
+            this.inicial.setSiguiente(nodoContinuacion);
+        } else {
+            NodoInterno<E> nodoAnterior = this.inicial;
+            for (int i = 0; i < index - 1; i++) {
+                nodoAnterior = nodoAnterior.getSiguiente();
+            }
+            NodoInterno<E> nodoContinuacion = nodoAnterior.getSiguiente();
+            nodoAnterior.setSiguiente(new NodoInterno<E>(element));
+            nodoAnterior.getSiguiente().setSiguiente(nodoContinuacion);
         }
+        this.numElementos++;
     }
 
     @Override
@@ -70,10 +81,10 @@ public class ListaEnlazada<E> extends AbstractList<E> {
         if (index < 0 || index >= numElementos) {
             throw new IndexOutOfBoundsException();
         } else if (index == 0) {
-            nodoEliminado = inicial.getElemento();
-            inicial = inicial.getSiguiente();
+            nodoEliminado = this.inicial.getElemento();
+            this.inicial = this.inicial.getSiguiente();
         } else {
-            NodoInterno<E> nodoAnterior = inicial;
+            NodoInterno<E> nodoAnterior = this.inicial;
             for (int i = 0; i < index - 1; i++) {
                 nodoAnterior = nodoAnterior.getSiguiente();
             }
@@ -91,7 +102,7 @@ public class ListaEnlazada<E> extends AbstractList<E> {
             throw new IndexOutOfBoundsException();
         }
 
-        NodoInterno<E> nodoPosicion = inicial;
+        NodoInterno<E> nodoPosicion = this.inicial;
         for (int i = 0; i < index; i++) {
             nodoPosicion = nodoPosicion.getSiguiente();
         }
@@ -103,12 +114,7 @@ public class ListaEnlazada<E> extends AbstractList<E> {
         return numElementos;
     }
 
-    @Override
-    public Iterator<E> iterator() {
-        return new IteradorListaEnlazada();
-    }
-
-    private class IteradorListaEnlazada implements ListIterator<E> {
+    public class IteradorListaEnlazada implements ListIterator<E> {
         private NodoInterno<E> nodoPosicion;
         private NodoInterno<E> nodoAnterior;
         private int indicePosicion;
