@@ -4,11 +4,11 @@ import java.util.AbstractList;
 import java.util.Iterator;
 
 public class ListaEnlazada<E> extends AbstractList<E> {
-    private NodoInterno<E> posicion;
+    private NodoInterno<E> inicial;
     private int numElementos;
 
     public ListaEnlazada() {
-        posicion = null;
+        inicial = null;
         numElementos = 0;
     }
 
@@ -40,8 +40,27 @@ public class ListaEnlazada<E> extends AbstractList<E> {
 
     @Override
     public boolean add(E e) {
-        // TODO: Implementar
-        return false;
+        NodoInterno<E> nuevoNodo = new NodoInterno<E>(e);
+        if (inicial == null) {
+            inicial = nuevoNodo;
+        } else {
+            NodoInterno<E> anteriorNodo = inicial;
+            while (anteriorNodo.getSiguiente() != null) {
+                anteriorNodo = anteriorNodo.getSiguiente();
+            }
+            anteriorNodo.setSiguiente(nuevoNodo);
+        }
+        this.numElementos++;
+        return true;
+    }
+
+    @Override
+    public void add(int index, E element) {
+        if (index == numElementos) {
+            this.add(element);
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override
@@ -52,14 +71,13 @@ public class ListaEnlazada<E> extends AbstractList<E> {
 
     @Override
     public E get(int index) {
-        // TODO: implementar
+        // TODO: Implementar
         return null;
     }
 
     @Override
     public int size() {
-        // TODO: Implementar
-        return 0;
+        return numElementos;
     }
 
     @Override
