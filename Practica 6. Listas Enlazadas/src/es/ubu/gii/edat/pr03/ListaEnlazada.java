@@ -71,8 +71,15 @@ public class ListaEnlazada<E> extends AbstractList<E> {
 
     @Override
     public E get(int index) {
-        // TODO: Implementar
-        return null;
+        if (index == 0 || index >= numElementos) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        NodoInterno<E> nodoInicial = inicial;
+        for (int i = 0; i < index; i++) {
+            nodoInicial = nodoInicial.getSiguiente();
+        }
+        return nodoInicial.getElemento();
     }
 
     @Override
