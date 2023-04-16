@@ -88,6 +88,7 @@ public class ListaEnlazada<E> extends AbstractList<E> {
 
     @Override
     public void clear() {
-        // TODO: Implementar
+        inicial = null;
+        numElementos = 0;
     }
 }
