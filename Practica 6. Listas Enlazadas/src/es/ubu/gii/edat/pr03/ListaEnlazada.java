@@ -2,6 +2,7 @@ package es.ubu.gii.edat.pr03;
 
 import java.util.AbstractList;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 public class ListaEnlazada<E> extends AbstractList<E> {
     private NodoInterno<E> inicial;
@@ -65,8 +66,23 @@ public class ListaEnlazada<E> extends AbstractList<E> {
 
     @Override
     public E remove(int index) {
-        // TODO: Implementar
-        return null;
+        E nodoEliminado = null;
+        if (index < 0 || index >= numElementos) {
+            throw new IndexOutOfBoundsException();
+        } else if (index == 0) {
+            nodoEliminado = inicial.getElemento();
+            inicial = inicial.getSiguiente();
+        } else {
+            NodoInterno<E> nodoAnterior = inicial;
+            for (int i = 0; i < index - 1; i++) {
+                nodoAnterior = nodoAnterior.getSiguiente();
+            }
+            nodoEliminado = nodoAnterior.getSiguiente().getElemento();
+            nodoAnterior.setSiguiente(nodoAnterior.getSiguiente().getSiguiente());
+        }
+
+        numElementos--;
+        return nodoEliminado;
     }
 
     @Override
