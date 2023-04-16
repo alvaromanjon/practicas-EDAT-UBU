@@ -89,8 +89,84 @@ public class ListaEnlazada<E> extends AbstractList<E> {
 
     @Override
     public Iterator<E> iterator() {
-        // TODO: Implementar
-        return null;
+        return new IteradorListaEnlazada();
+    }
+
+    private class IteradorListaEnlazada implements ListIterator<E> {
+        private NodoInterno<E> nodoPosicion;
+        private NodoInterno<E> nodoAnterior;
+        private int indicePosicion;
+
+        public IteradorListaEnlazada() {
+            nodoPosicion = inicial;
+            nodoAnterior = null;
+            indicePosicion = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return nodoPosicion != null;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new IndexOutOfBoundsException();
+            }
+            E elemento = nodoPosicion.getElemento();
+            nodoAnterior = nodoPosicion;
+            nodoPosicion = nodoPosicion.getSiguiente();
+            indicePosicion++;
+            return elemento;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return nodoAnterior != null;
+        }
+
+        @Override
+        public E previous() {
+            if (!hasPrevious()) {
+                throw new IndexOutOfBoundsException();
+            }
+            E elemento = nodoAnterior.getElemento();
+            nodoPosicion = nodoAnterior;
+            NodoInterno<E> nodoInicial = inicial;
+            for (int i = 0; i < indicePosicion - 1; i++) {
+                nodoInicial = nodoInicial.getSiguiente();
+            }
+            nodoAnterior = nodoInicial;
+            indicePosicion--;
+            return elemento;
+        }
+
+        @Override
+        public int nextIndex() {
+            return indicePosicion;
+        }
+
+        @Override
+        public int previousIndex() {
+            return indicePosicion - 1;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+
+        }
+
+        @Override
+        public void set(E e) {
+            throw new UnsupportedOperationException();
+
+        }
+
+        @Override
+        public void add(E e) {
+            throw new UnsupportedOperationException();
+        }
     }
 
     @Override
