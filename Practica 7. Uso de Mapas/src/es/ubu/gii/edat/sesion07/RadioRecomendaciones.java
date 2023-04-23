@@ -10,13 +10,13 @@ import java.util.*;
  * @author Álvaro Manjón Vara
  */
 public class RadioRecomendaciones {
-    private HashMap<String, ArrayList<String>> listaRecomendaciones;
+    private final HashMap<String, ArrayList<String>> listaRecomendaciones;
 
     /**
      * Constructor de la clase RadioRecomendaciones. Inicializa la lista de recomendaciones vacía.
      */
     RadioRecomendaciones() {
-        this.listaRecomendaciones = new HashMap<String, ArrayList<String>>();
+        this.listaRecomendaciones = new HashMap<>();
     }
 
     /**
@@ -37,18 +37,18 @@ public class RadioRecomendaciones {
         boolean nuevoElemento = false;
         String clave = "";
 
-        for (int i = 0; i < recomendaciones.length; i++) {
-            if (recomendaciones[i].equals("|")) {
+        for (String tema : recomendaciones) {
+            if (tema.equals("|")) {
                 nuevoElemento = true;
                 continue;
             }
             if (nuevoElemento) {
                 canciones++;
-                clave = recomendaciones[i];
-                this.listaRecomendaciones.put(clave, new ArrayList<String>());
+                clave = tema;
+                this.listaRecomendaciones.put(clave, new ArrayList<>());
                 nuevoElemento = false;
             } else {
-                this.listaRecomendaciones.get(clave).add(recomendaciones[i]);
+                this.listaRecomendaciones.get(clave).add(tema);
             }
         }
 
@@ -71,15 +71,13 @@ public class RadioRecomendaciones {
      */
     public String[] generaPlaylist(String inicial, int numTemas) {
         String[] playlist = new String[numTemas];
-        ArrayList<String> temasRecomendados = new ArrayList<String>();
+        ArrayList<String> temasRecomendados;
 
         playlist[0] = inicial;
         for (int i = 0; elementosNoNulos(playlist) < numTemas; i++) {
             temasRecomendados = this.listaRecomendaciones.get(playlist[i]);
             for (int j = 0; elementosNoNulos(playlist) < numTemas && j < temasRecomendados.size(); j++) {
-                if (Arrays.asList(playlist).contains(temasRecomendados.get(j))) {
-                    continue;
-                } else {
+                if (!Arrays.asList(playlist).contains(temasRecomendados.get(j))) {
                     playlist[i + j + 1] = temasRecomendados.get(j);
                 }
             }
@@ -96,8 +94,8 @@ public class RadioRecomendaciones {
      */
     private int elementosNoNulos(String[] array) {
         int elementos = 0;
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] != null) {
+        for (String s : array) {
+            if (s != null) {
                 elementos++;
             }
         }
@@ -110,21 +108,19 @@ public class RadioRecomendaciones {
      * @return canciones que no son recomendación de ninguna otra canción
      */
     public String[] noRecomendadas() {
-        ArrayList<String> temasNoRecomendados = new ArrayList<String>();
-        ArrayList<String> todosLosTemas = new ArrayList<String>();
+        ArrayList<String> temasNoRecomendados = new ArrayList<>();
+        ArrayList<String> todosLosTemas = new ArrayList<>();
 
         for (ArrayList<String> temas : this.listaRecomendaciones.values()) {
             todosLosTemas.addAll(temas);
         }
 
         for (String tema : this.listaRecomendaciones.keySet()) {
-            if (todosLosTemas.contains(tema)) {
-                continue;
-            } else {
+            if (!todosLosTemas.contains(tema)) {
                 temasNoRecomendados.add(tema);
             }
         }
 
-        return temasNoRecomendados.toArray(new String[temasNoRecomendados.size()]);
+        return temasNoRecomendados.toArray(new String[0]);
     }
 }
