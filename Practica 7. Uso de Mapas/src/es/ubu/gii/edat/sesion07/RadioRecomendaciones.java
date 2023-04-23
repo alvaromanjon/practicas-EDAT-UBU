@@ -1,8 +1,6 @@
 package es.ubu.gii.edat.sesion07;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class RadioRecomendaciones {
     private HashMap<String, ArrayList<String>> listaRecomendaciones;
@@ -61,5 +59,24 @@ public class RadioRecomendaciones {
             }
         }
         return elementos;
+    }
+
+    public String[] noRecomendadas() {
+        ArrayList<String> temasNoRecomendados = new ArrayList<String>();
+        ArrayList<String> todosLosTemas = new ArrayList<String>();
+
+        for (ArrayList<String> temas : this.listaRecomendaciones.values()) {
+            todosLosTemas.addAll(temas);
+        }
+
+        for (String tema : this.listaRecomendaciones.keySet()) {
+            if (todosLosTemas.contains(tema)) {
+                continue;
+            } else {
+                temasNoRecomendados.add(tema);
+            }
+        }
+
+        return temasNoRecomendados.toArray(new String[temasNoRecomendados.size()]);
     }
 }
