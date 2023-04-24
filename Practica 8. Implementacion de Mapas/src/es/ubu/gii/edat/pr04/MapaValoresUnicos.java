@@ -1,12 +1,23 @@
 package es.ubu.gii.edat.pr04;
 
 import java.util.AbstractMap;
+import java.util.Hashtable;
 import java.util.Set;
 
 public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
 
-    public MapaValoresUnicos() {
+    private final Hashtable<K,V> tablaDirecta;
+    private final Hashtable<K,V> tablaInversa;
 
+    public MapaValoresUnicos() {
+        this.tablaDirecta = new Hashtable<>();
+        this.tablaInversa = new Hashtable<>();
+    }
+
+    @Override
+    public V put(K key, V value) {
+        // TODO: Implementar
+        return null;
     }
 
     @Override
@@ -17,7 +28,7 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
 
     // TODO: Ver si hace falta sobreescribir más métodos
 
-    public MapaValoresUnicos inverso()  {
+    public MapaValoresUnicos<V,K> inverso()  {
         // TODO: Implementar
         return null;
     }
