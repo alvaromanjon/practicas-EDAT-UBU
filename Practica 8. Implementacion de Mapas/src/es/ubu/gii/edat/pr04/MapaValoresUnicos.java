@@ -20,6 +20,11 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
         return null;
     }
 
+    public V remove(Object key) {
+        // TODO: Implementar
+        return null;
+    }
+
     @Override
     public Set<Entry<K, V>> entrySet() {
         // TODO: Implementar
