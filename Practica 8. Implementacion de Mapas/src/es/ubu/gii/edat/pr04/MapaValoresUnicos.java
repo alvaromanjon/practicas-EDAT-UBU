@@ -4,6 +4,9 @@ import java.util.AbstractMap;
 import java.util.Hashtable;
 import java.util.Set;
 
+// Tanto las claves como los valores deben ser únicos; sin embargo, como en las tablas hash se permiten valores
+// nulos, se permite que haya una clave nula, y un valor nulo, pero no más de uno de cada uno.
+
 public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
 
     private final Hashtable<K,V> tablaDirecta;
@@ -31,7 +34,7 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
         return null;
     }
 
-    // TODO: Ver si hace falta sobreescribir más métodos
+    // TODO: Ver si hace falta sobreescribir más métodos (en principio con los métodos actuales es suficiente)
 
     public MapaValoresUnicos<V,K> inverso()  {
         // TODO: Implementar
