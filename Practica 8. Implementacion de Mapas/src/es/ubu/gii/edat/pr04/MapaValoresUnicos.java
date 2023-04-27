@@ -1,7 +1,7 @@
 package es.ubu.gii.edat.pr04;
 
 import java.util.AbstractMap;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Set;
 
 // Tanto las claves como los valores deben ser únicos; sin embargo, como en las tablas hash se permiten valores
@@ -9,18 +9,23 @@ import java.util.Set;
 
 public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
 
-    private final Hashtable<K,V> tablaDirecta;
-    private final Hashtable<K,V> tablaInversa;
+    private final HashMap<K,V> tablaDirecta;
+    private final HashMap<V,K> tablaInversa;
 
     public MapaValoresUnicos() {
-        this.tablaDirecta = new Hashtable<>();
-        this.tablaInversa = new Hashtable<>();
+        this.tablaDirecta = new HashMap<>();
+        this.tablaInversa = new HashMap<>();
     }
 
     @Override
     public V put(K key, V value) {
-        // TODO: Implementar
-        return null;
+        if (this.tablaInversa.containsKey(value)) {
+            throw new IllegalArgumentException("El valor ya tiene una clave");
+        }
+        V elemento = this.tablaDirecta.put(key, value);
+        this.tablaInversa.put(value, key);
+
+        return elemento;
     }
 
     public V remove(Object key) {
