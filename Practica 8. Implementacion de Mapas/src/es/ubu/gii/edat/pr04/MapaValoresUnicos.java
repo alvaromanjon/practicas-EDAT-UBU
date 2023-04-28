@@ -59,8 +59,9 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
     }
 
     public V forcePut (K key, V value) {
-        if (this.tablaInversa.containsValue(value)) {
+        if (this.tablaInversa.containsKey(value)) {
             this.tablaDirecta.remove(this.tablaInversa.get(value));
+            this.tablaInversa.remove(value);
         }
         V valorAntiguo = this.tablaDirecta.put(key, value);
         this.tablaInversa.put(value, key);
