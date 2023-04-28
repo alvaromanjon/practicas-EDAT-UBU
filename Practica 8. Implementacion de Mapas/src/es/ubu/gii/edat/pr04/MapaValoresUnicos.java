@@ -72,6 +72,7 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
      * @param key - clave
      * @return valor eliminado y asociado a la clave
      */
+    @Override
     public V remove(Object key) {
         V valorAntiguo = this.tablaDirecta.remove(key);
         this.tablaInversa.remove(valorAntiguo);
