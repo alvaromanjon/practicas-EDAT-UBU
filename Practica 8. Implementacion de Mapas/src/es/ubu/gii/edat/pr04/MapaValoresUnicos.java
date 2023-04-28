@@ -17,6 +17,11 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
         this.tablaInversa = new HashMap<>();
     }
 
+    public MapaValoresUnicos(HashMap<K,V> tablaDirecta, HashMap<V,K> tablaInversa) {
+        this.tablaDirecta = tablaDirecta;
+        this.tablaInversa = tablaInversa;
+    }
+
     @Override
     public V put(K key, V value) {
         // En caso de asignar una clave a un valor existente
@@ -47,18 +52,12 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
         return this.tablaDirecta.entrySet();
     }
 
-    // TODO: Ver si hace falta sobreescribir más métodos (en principio con los métodos actuales es suficiente)
-
     public MapaValoresUnicos<V,K> inverso()  {
-        MapaValoresUnicos<V,K> mapaInverso = new MapaValoresUnicos<>();
-        for (Entry<V,K> entry : this.tablaInversa.entrySet()) {
-            mapaInverso.put(entry.getKey(), entry.getValue());
-        }
-
-        return mapaInverso;
+        return new MapaValoresUnicos<>(this.tablaInversa, this.tablaDirecta);
     }
 
     public V forcePut (K key, V value) {
+        // En caso de asignar una clave a un valor existente
         if (this.tablaInversa.containsKey(value)) {
             this.tablaDirecta.remove(this.tablaInversa.get(value));
             this.tablaInversa.remove(value);
@@ -66,6 +65,7 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
         V valorAntiguo = this.tablaDirecta.put(key, value);
         this.tablaInversa.put(value, key);
 
+        // En caso de asignar un valor a una clave existente
         if (valorAntiguo != null) {
             this.tablaInversa.remove(valorAntiguo);
         }
