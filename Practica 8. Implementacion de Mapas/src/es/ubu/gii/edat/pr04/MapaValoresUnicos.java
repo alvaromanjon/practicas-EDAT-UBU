@@ -19,13 +19,20 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
 
     @Override
     public V put(K key, V value) {
+        // En caso de asignar una clave a un valor existente
         if (this.tablaInversa.containsKey(value)) {
             throw new IllegalArgumentException("El valor ya tiene una clave");
         }
-        V elemento = this.tablaDirecta.put(key, value);
+
+        V valorAntiguo = this.tablaDirecta.put(key, value);
         this.tablaInversa.put(value, key);
 
-        return elemento;
+        // En caso de asignar un valor a una clave existente
+        if (valorAntiguo != null) {
+            this.tablaInversa.remove(valorAntiguo);
+        }
+
+        return valorAntiguo;
     }
 
     public V remove(Object key) {
