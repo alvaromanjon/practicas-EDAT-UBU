@@ -44,8 +44,7 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
 
     @Override
     public Set<Entry<K, V>> entrySet() {
-        // TODO: Implementar
-        return null;
+        return this.tablaDirecta.entrySet();
     }
 
     // TODO: Ver si hace falta sobreescribir más métodos (en principio con los métodos actuales es suficiente)
