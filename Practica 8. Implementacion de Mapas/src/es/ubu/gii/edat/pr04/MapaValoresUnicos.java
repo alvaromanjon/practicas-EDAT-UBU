@@ -36,8 +36,10 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
     }
 
     public V remove(Object key) {
-        // TODO: Implementar
-        return null;
+        V valorAntiguo = this.tablaDirecta.remove(key);
+        this.tablaInversa.remove(valorAntiguo);
+
+        return valorAntiguo;
     }
 
     @Override
