@@ -50,8 +50,12 @@ public class MapaValoresUnicos<K,V> extends AbstractMap<K,V> {
     // TODO: Ver si hace falta sobreescribir más métodos (en principio con los métodos actuales es suficiente)
 
     public MapaValoresUnicos<V,K> inverso()  {
-        // TODO: Implementar
-        return null;
+        MapaValoresUnicos<V,K> mapaInverso = new MapaValoresUnicos<>();
+        for (Entry<V,K> entry : this.tablaInversa.entrySet()) {
+            mapaInverso.put(entry.getKey(), entry.getValue());
+        }
+
+        return mapaInverso;
     }
 
     public V forcePut (K key, V value) {
