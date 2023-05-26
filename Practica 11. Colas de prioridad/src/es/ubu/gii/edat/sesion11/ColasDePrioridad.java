@@ -29,7 +29,7 @@ public class ColasDePrioridad {
         }
 
         List<E> resultado = new ArrayList<>(cola);
-        resultado.sort(Collections.reverseOrder());
+        resultado.sort(Collections.reverseOrder(comparator));
         return resultado;
     }
 
